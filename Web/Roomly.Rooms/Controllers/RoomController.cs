@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Roomly.Rooms.Services;
 using Roomly.Rooms.ViewModels;
@@ -16,6 +18,7 @@ public class RoomController : ControllerBase
         _roomService = roomService;
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost]
     public async Task<IActionResult> CreateRoom(RoomViewModel roomViewModel)
     {

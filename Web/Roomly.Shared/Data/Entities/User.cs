@@ -1,6 +1,8 @@
-﻿namespace Roomly.Shared.Data.Entities;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace Roomly.Shared.Data.Entities;
+
+public class User : IdentityUser
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

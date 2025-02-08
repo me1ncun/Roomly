@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Roomly.Rooms.Helpers;
 using Roomly.Rooms.Services;
+using Roomly.Shared.Data;
+using Roomly.Shared.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRoomService, RoomService>();
+
+// Adding Identity services
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
