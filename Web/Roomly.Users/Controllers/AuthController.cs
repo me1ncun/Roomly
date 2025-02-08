@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Roomly.Shared.Data.Entities;
 using Roomly.Users.Infrastructure.Exceptions;
 using Roomly.Users.Services;
 using Roomly.Users.ViewModels;
@@ -12,13 +14,16 @@ public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly UserManager<User> _userManager;
 
     public AuthController(
         IUserService userService,
-        IHttpContextAccessor contextAccessor)
+        IHttpContextAccessor contextAccessor,
+        UserManager<User> userManager)
     {
         _userService = userService;
         _contextAccessor = contextAccessor;
+        _userManager = userManager;
     }
 
     [HttpPost("login")]
@@ -26,9 +31,9 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var user = await _userService.GetUserByEmailAsync(loginViewModel.Email);
+            var token = await _userService.GetUserTokenByCredentialsAsync(loginViewModel);
 
-            _contextAccessor.HttpContext.Response.Cookies.Append("token", user.Token, new CookieOptions
+            _contextAccessor.HttpContext.Response.Cookies.Append("token", token, new CookieOptions
             {
                 MaxAge = TimeSpan.FromMinutes(20),
                 HttpOnly = true,
@@ -36,11 +41,15 @@ public class AuthController : ControllerBase
                 SameSite = SameSiteMode.None
             });
 
-            return Ok(user);
+            return Ok(token);
         }
         catch (EntityNotFoundException ex)
         {
             return NotFound(new { message = ex.Message });
+        }
+        catch (LoginException ex)
+        {
+            return BadRequest(new { message = ex.Message });
         }
         catch (Exception ex)
         {
@@ -53,7 +62,9 @@ public class AuthController : ControllerBase
     {
         try
         {
-            await _userService.CreateUserAsync(registrationViewModel);
+            var user = await _userService.CreateUserAsync(registrationViewModel);
+            
+            await _userManager.AddToRoleAsync(user, "User");
 
             return Ok();
         }

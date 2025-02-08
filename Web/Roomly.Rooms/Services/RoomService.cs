@@ -39,13 +39,18 @@ public class RoomService : IRoomService
         _logger.LogInformation($"Room {roomViewModel.Name} has been created");
     }
 
-    public async Task<List<AvailableSlotViewModel>> GetAvailableRoomsAsync()
+    public async Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync()
     {
         var rooms = await _dbContext.AvailableSlots
+            .Include(s => s.Room)
             .Where(slot => slot.IsAvailable == true) 
-            .Select(slot => new AvailableSlotViewModel
+            .Select(slot => new AvailableRoomViewModel()
             {
                 RoomId = slot.RoomId,
+                RoomName = slot.Room.Name,
+                RoomDescription = slot.Room.Description,
+                RoomLocation = slot.Room.Location,
+                RoomCapacity = slot.Room.Capacity,
                 StartTime = slot.StartTime,
                 EndTime = slot.EndTime,
                 IsAvailable = slot.IsAvailable
@@ -79,6 +84,6 @@ public class RoomService : IRoomService
 public interface IRoomService
 {
     Task CreateRoomAsync(RoomViewModel roomViewModel);
-    Task<List<AvailableSlotViewModel>> GetAvailableRoomsAsync();
+    Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync();
     Task<List<AvailableSlotViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId);
 }

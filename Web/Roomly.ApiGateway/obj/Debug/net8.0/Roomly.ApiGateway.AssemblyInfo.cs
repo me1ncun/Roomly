@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Roomly.ApiGateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28ea54b5bfc8c24a020bd0a16945a86743e38d73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3c8213ee9162c4cda0f5073427293ebeb20e379")]
 [assembly: System.Reflection.AssemblyProductAttribute("Roomly.ApiGateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Roomly.ApiGateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

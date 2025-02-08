@@ -4,6 +4,7 @@ using Roomly.Shared.Data;
 using Roomly.Shared.Data.Entities;
 using Roomly.Users.Infrastructure.Auth;
 using Roomly.Users.Infrastructure.Exceptions;
+using Roomly.Users.Infrastructure.Helpers;
 using Roomly.Users.ViewModels;
 
 namespace Roomly.Users.Services;
@@ -27,7 +28,7 @@ public class UserService : IUserService
         _jwtProvider = jwtProvider;
     }
 
-    public async Task CreateUserAsync(RegisterViewModel registerViewModel)
+    public async Task<User> CreateUserAsync(RegisterViewModel registerViewModel)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerViewModel.Email);
         if (user is not null)
@@ -36,35 +37,37 @@ public class UserService : IUserService
         }
         
         var userEntity = _mapper.Map<User>(registerViewModel);
+
+        userEntity.Password = HashPasswordHelper.HashPassword(userEntity.Password);
         
         await _dbContext.Users.AddAsync(userEntity);
         await _dbContext.SaveChangesAsync();
         
         _logger.LogInformation($"User {registerViewModel.Email} has been created");
+        
+        return userEntity;
     }
 
-    public async Task<LoginViewModel> GetUserByEmailAsync(string email)
+    public async Task<string> GetUserTokenByCredentialsAsync(LoginViewModel loginViewModel)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginViewModel.Email);
         if (user is null)
-        {
             throw new EntityNotFoundException();
-        }
         
-        var userViewModel = _mapper.Map<LoginViewModel>(user);
+        var result = HashPasswordHelper.VerifyPassword(loginViewModel.Password, user.Password);
+        if (!result)
+            throw new LoginException();
 
         var token = _jwtProvider.GenerateToken(user);
         
-        _logger.LogInformation($"User {email} has been retrieved");
+        _logger.LogInformation($"User {loginViewModel.Email} has been retrieved");
         
-        userViewModel.Token = token;
-        
-        return userViewModel;
+        return token;
     }
 }
 
 public interface IUserService
 {
-    Task CreateUserAsync(RegisterViewModel registerViewModel);
-    Task<LoginViewModel> GetUserByEmailAsync(string email);
+    Task<User> CreateUserAsync(RegisterViewModel registerViewModel);
+    Task<string> GetUserTokenByCredentialsAsync(LoginViewModel loginViewModel);
 }
