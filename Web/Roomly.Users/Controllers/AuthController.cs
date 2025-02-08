@@ -54,22 +54,33 @@ public class AuthController : ControllerBase
         try
         {
             await _userService.CreateUserAsync(registrationViewModel);
-            
-            var user = await _userService.GetUserByEmailAsync(registrationViewModel.Email);
-                    
-            _contextAccessor.HttpContext.Response.Cookies.Append("token", user.Token,  new CookieOptions
-            {
-                MaxAge = TimeSpan.FromMinutes(20),
-                HttpOnly = true,
-                Secure = true, 
-                SameSite = SameSiteMode.None 
-            });
 
             return Ok();
         }
         catch (EntityAlreadyExistsException ex)
         {
             return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+        }
+    }
+    
+    [HttpPost("/logout")]
+    public IActionResult Logout()
+    {
+        try
+        {
+            _contextAccessor.HttpContext.Response.Cookies.Delete("token", new CookieOptions
+            {
+                MaxAge = TimeSpan.FromSeconds(1),
+                HttpOnly = true,
+                Secure = true, 
+                SameSite = SameSiteMode.None
+            });
+        
+            return Ok();
         }
         catch (Exception ex)
         {
