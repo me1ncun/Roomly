@@ -1,7 +1,6 @@
 using MMLib.Ocelot.Provider.AppConfiguration;
 using MMLib.SwaggerForOcelot.DependencyInjection;
 using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

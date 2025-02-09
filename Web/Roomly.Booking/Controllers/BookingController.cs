@@ -17,10 +17,12 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBooking(BookingViewModel bookingViewModel)
+    public async Task<IActionResult> CreateBooking(BookingCreateViewModel bookingViewModel)
     {
         try
         {
+            await _bookingService.CreateBookingAsync(bookingViewModel);
+            
             return Ok();
         }
         catch (EntityAlreadyExistsException ex)
@@ -48,7 +50,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    [HttpGet("{bookingId:guid}/cancel")]
+    [HttpPut("{bookingId:guid}/cancel")]
     public async Task<IActionResult> CancelBooking(Guid bookingId)
     {
         try

@@ -4,7 +4,8 @@ namespace Roomly.Booking.ViewModels;
 
 public class BookingViewModel
 {
-    public string UserName { get; set; }
+    public Guid RoomId { get; set; }
+    public Guid UserId { get; set; }
     public string UserEmail { get; set; }
     public string RoomName { get; set; }
     public string RoomLocation { get; set; }

@@ -120,8 +120,7 @@ public class AuthController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
         }
     }
-
-
+    
     [HttpPost("/logout")]
     public IActionResult Logout()
     {

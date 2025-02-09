@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Roomly.Shared.Auth;
+using Roomly.Shared.Options;
 
 namespace Roomly.Shared.Auth.Services;
 

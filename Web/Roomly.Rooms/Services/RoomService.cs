@@ -7,6 +7,13 @@ using Roomly.Users.Infrastructure.Exceptions;
 
 namespace Roomly.Rooms.Services;
 
+public interface IRoomService
+{
+    Task CreateRoomAsync(RoomViewModel roomViewModel);
+    Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync();
+    Task<List<AvailableSlotViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId);
+}
+
 public class RoomService : IRoomService
 {
     private readonly ApplicationDbContext _dbContext;
@@ -31,6 +38,8 @@ public class RoomService : IRoomService
             throw new EntityAlreadyExistsException();
         
         var roomEntity = _mapper.Map<Room>(roomViewModel);
+        
+        roomEntity.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
         
         await _dbContext.Rooms.AddAsync(roomEntity);
         await _dbContext.SaveChangesAsync();
@@ -78,11 +87,4 @@ public class RoomService : IRoomService
         
         return rooms;
     }
-}
-
-public interface IRoomService
-{
-    Task CreateRoomAsync(RoomViewModel roomViewModel);
-    Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync();
-    Task<List<AvailableSlotViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId);
 }

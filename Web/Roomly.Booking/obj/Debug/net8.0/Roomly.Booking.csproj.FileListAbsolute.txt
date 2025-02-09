@@ -95,3 +95,8 @@ C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\obj\De
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\obj\Debug\net8.0\Roomly.Booking.pdb
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\obj\Debug\net8.0\Roomly.Booking.genruntimeconfig.cache
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\obj\Debug\net8.0\ref\Roomly.Booking.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Booking\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

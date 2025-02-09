@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Roomly.Booking.Mappings;
 using Roomly.Booking.Services;
 using Roomly.Shared.Data;
+using Roomly.Shared.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,12 +21,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"), sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
 });
 
+builder.Services.Configure<RabbitOptions>(builder.Configuration.GetSection("RabbitOptions"));
+
 builder.Services.AddAutoMapper(typeof(BookingProfile));
 
-builder.Services.AddMassTransit(x =>
-{
-    x.UsingRabbitMq();
-});
+var rabbitOptions = builder.Configuration.GetSection("RabbitOptions").Get<RabbitOptions>();
+
+builder.Services.AddMassTransit(x=>
+{ 
+    x.UsingRabbitMq((ctx,cfg)=>
+    { 
+        cfg.Host(rabbitOptions.HostName,"/" , c=> 
+        { 
+            c.Username(rabbitOptions.UserName);
+            c.Password(rabbitOptions.Password); 
+        }); 
+        cfg.ConfigureEndpoints(ctx); 
+    }); 
+}); 
 
 var app = builder.Build();
 

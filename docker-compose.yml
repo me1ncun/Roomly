@@ -19,15 +19,20 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
     networks:
       - deploy-guide
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
  
 volumes:
   pg_data:

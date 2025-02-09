@@ -55,7 +55,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
 });
 
-
 builder.Services.AddScoped<IdentityService>();
 
 builder.Services.AddAutoMapper(typeof(UserProfile));

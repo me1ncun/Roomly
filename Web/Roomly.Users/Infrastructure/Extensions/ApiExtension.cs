@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Roomly.Shared.Auth;
 using Roomly.Shared.Data;
+using Roomly.Shared.Options;
 
 namespace Roomly.Users.Infrastructure.Extensions;
 

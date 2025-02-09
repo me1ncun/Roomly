@@ -3,31 +3,69 @@ using Microsoft.EntityFrameworkCore;
 using Roomly.Booking.ViewModels;
 using Roomly.Rooms.ViewModels;
 using Roomly.Shared.Data;
-using Roomly.Shared.Data.Entities;
 using Roomly.Shared.Data.Enums;
 using Roomly.Users.Infrastructure.Exceptions;
 
 namespace Roomly.Booking.Services;
 
+public interface IBookingService
+{
+    Task CreateBookingAsync(BookingCreateViewModel bookingViewModel);
+    Task<List<BookingViewModel>> GetUserBookingsAsync(Guid userId);
+    Task CancelBookingAsync(Guid bookingId);
+}
+
 public class BookingService : IBookingService
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<BookingService> _logger;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IRequestClient<AvailabilityRoomViewModel> _requestClient;
 
     public BookingService(
         ApplicationDbContext dbContext,
         ILogger<BookingService> logger,
-        IPublishEndpoint publishEndpoint)
+        IRequestClient<AvailabilityRoomViewModel> requestClient)
     {
         _dbContext = dbContext;
         _logger = logger;
-        _publishEndpoint = publishEndpoint;
+        _requestClient = requestClient;
     }
 
-    public async Task CreateBookingAsync(BookingViewModel bookingViewModel)
+    public async Task CreateBookingAsync(BookingCreateViewModel bookingViewModel)
     {
+        var availabilityViewModel = new AvailabilityRoomViewModel()
+        {
+            UserId = bookingViewModel.UserId,
+            RoomId = bookingViewModel.RoomId,
+            StartTime = bookingViewModel.StartTime,
+            EndTime = bookingViewModel.EndTime
+        };
         
+        _logger.LogInformation($"Checking availability for Room {bookingViewModel.RoomId} from {bookingViewModel.StartTime} to {bookingViewModel.EndTime}");
+        
+        var response = await _requestClient.GetResponse<AvailabilityResponse>(availabilityViewModel);
+
+        if (!response.Message.IsAvailable)
+        {
+            _logger.LogWarning($"Room {bookingViewModel.RoomId} is not available for booking.");
+            
+            throw new Exception("Slot is not available");
+        }
+
+        var booking = new Shared.Data.Entities.Booking
+        {
+            UserId = bookingViewModel.UserId,
+            RoomId = bookingViewModel.RoomId,
+            StartTime = bookingViewModel.StartTime,
+            EndTime = bookingViewModel.EndTime,
+            Status = BookingStatus.Confirmed,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        await _dbContext.Bookings.AddAsync(booking);
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation($"Booking created successfully for User {bookingViewModel.UserId}, Room {bookingViewModel.RoomId}");
     }
 
     public async Task<List<BookingViewModel>> GetUserBookingsAsync(Guid userId)
@@ -38,7 +76,7 @@ public class BookingService : IBookingService
             .Where(b => b.UserId == userId)
             .Select(b => new BookingViewModel()
             {
-                UserName = b.User.Name,
+                UserId = b.User.Id,
                 RoomName = b.Room.Name,
                 UserEmail = b.User.Email,
                 RoomLocation = b.Room.Location,
@@ -66,11 +104,4 @@ public class BookingService : IBookingService
         
         await _dbContext.SaveChangesAsync();
     }
-}
-
-public interface IBookingService
-{
-    Task CreateBookingAsync(BookingViewModel bookingViewModel);
-    Task<List<BookingViewModel>> GetUserBookingsAsync(Guid userId);
-    Task CancelBookingAsync(Guid bookingId);
 }

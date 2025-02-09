@@ -1,10 +1,11 @@
 using MassTransit;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Roomly.Rooms.Extensions;
+using Roomly.Rooms.Infrastructure.Rabbit;
 using Roomly.Rooms.Services;
-using Roomly.Shared.Auth;
 using Roomly.Shared.Data;
+using Roomly.Shared.Options;
 using Roomly.Users.Infrastructure.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,40 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRoomService, RoomService>();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Room API",
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"), sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
@@ -25,14 +60,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(RoomProfile));
 
+var rabbitOptions = builder.Configuration.GetSection("RabbitOptions").Get<RabbitOptions>();
 
-/*var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+builder.Services.AddMassTransit(m=>
 {
-    cfg.ReceiveEndpoint("order-created-event", e =>
+    m.AddConsumers(typeof(RoomAvailabilityConsumer));
+    m.UsingRabbitMq((ctx,cfg)=>
     {
-        e.Consumer<OrderCreatedConsumer>();
+        cfg.ReceiveEndpoint("room-availability-queue", e =>
+        {
+            e.ConfigureConsumer<RoomAvailabilityConsumer>(ctx);
+        });
+        
+        cfg.Host(rabbitOptions.HostName,"/",c=>
+        {
+            c.Username(rabbitOptions.UserName);
+            c.Password(rabbitOptions.Password);
+        });
+        cfg.ConfigureEndpoints(ctx);
     });
-});*/
+});
+
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 

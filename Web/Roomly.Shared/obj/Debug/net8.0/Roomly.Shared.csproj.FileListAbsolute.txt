@@ -28,3 +28,10 @@ D:\web-kpi\Web\Roomly.Shared\obj\Debug\net8.0\refint\Roomly.Shared.dll
 D:\web-kpi\Web\Roomly.Shared\obj\Debug\net8.0\Roomly.Shared.pdb
 D:\web-kpi\Web\Roomly.Shared\obj\Debug\net8.0\Roomly.Shared.genruntimeconfig.cache
 D:\web-kpi\Web\Roomly.Shared\obj\Debug\net8.0\ref\Roomly.Shared.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\System.IO.Pipelines.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\Microsoft.Extensions.Features.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\Microsoft.Net.Http.Headers.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\bin\Debug\net8.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Shared\obj\Debug\net8.0\Roomly.S.1BB15968.Up2Date
