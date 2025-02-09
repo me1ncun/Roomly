@@ -17,9 +17,9 @@ public class RoomController : ControllerBase
     {
         _roomService = roomService;
     }
-
-    [Authorize(Policy = "AdminOnly")]
+    
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateRoom(RoomViewModel roomViewModel)
     {
         try

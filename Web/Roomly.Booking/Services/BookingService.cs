@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Roomly.Booking.ViewModels;
 using Roomly.Rooms.ViewModels;
 using Roomly.Shared.Data;
@@ -12,13 +13,16 @@ public class BookingService : IBookingService
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<BookingService> _logger;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public BookingService(
         ApplicationDbContext dbContext,
-        ILogger<BookingService> logger)
+        ILogger<BookingService> logger,
+        IPublishEndpoint publishEndpoint)
     {
         _dbContext = dbContext;
         _logger = logger;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task CreateBookingAsync(BookingViewModel bookingViewModel)

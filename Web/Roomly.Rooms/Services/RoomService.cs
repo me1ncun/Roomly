@@ -25,11 +25,10 @@ public class RoomService : IRoomService
 
     public async Task CreateRoomAsync(RoomViewModel roomViewModel)
     {
-        var room = await _dbContext.Rooms.FirstOrDefaultAsync(u => u.Name == roomViewModel.Name);
+        var room = await _dbContext.Rooms
+            .FirstOrDefaultAsync(u => u.Name == roomViewModel.Name);
         if (room is not null)
-        {
             throw new EntityAlreadyExistsException();
-        }
         
         var roomEntity = _mapper.Map<Room>(roomViewModel);
         

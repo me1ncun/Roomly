@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Roomly.Rooms.Helpers;
@@ -5,6 +7,7 @@ using Roomly.Shared.Data;
 using Roomly.Shared.Data.Entities;
 using Roomly.Users.Infrastructure.Auth;
 using Roomly.Users.Infrastructure.Extensions;
+using Roomly.Users.Infrastructure.Handlers;
 using Roomly.Users.Infrastructure.Mappings;
 using Roomly.Users.Services;
 
@@ -31,17 +34,16 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(J
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-builder.Services.AddScoped<RoleManager<IdentityRole>>();
+builder.Services.AddScoped<IAuthorizationHandler, RoleRequirementHandler>();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
 });
+
 
 var app = builder.Build();
 
@@ -51,7 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.ApplyMigrations();
-    await app.SeedRolesAsync();
+    // await app.SeedRolesAsync();
 }
 
 app.UseHttpsRedirection();

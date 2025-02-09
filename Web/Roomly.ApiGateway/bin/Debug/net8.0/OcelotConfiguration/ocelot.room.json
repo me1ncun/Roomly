@@ -1,0 +1,11 @@
+﻿{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/rooms/{everything}",
+      "DownstreamPathTemplate": "/api/rooms/{everything}",
+      "ServiceName": "room",
+      "UpstreamHttpMethod": [ "Post", "Get" ],
+      "SwaggerKey": "room"
+    }
+  ]
+}

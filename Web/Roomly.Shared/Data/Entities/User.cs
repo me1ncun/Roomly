@@ -2,7 +2,7 @@
 
 namespace Roomly.Shared.Data.Entities;
 
-public class User : IdentityUser
+public class User
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

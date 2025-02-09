@@ -1,0 +1,11 @@
+﻿{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/users/{everything}",
+      "DownstreamPathTemplate": "/api/users/{everything}",
+      "ServiceName": "user",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "user"
+    }
+  ]
+}

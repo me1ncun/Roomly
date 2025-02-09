@@ -1,0 +1,43 @@
+﻿{
+  "SwaggerEndPoints": [
+    {
+      "Key": "user",
+      "Config": [
+        {
+          "Name": "User Web API",
+          "Version": "v1",
+          "Service": {
+            "Name": "user",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "room",
+      "Config": [
+        {
+          "Name": "Room Web API",
+          "Version": "v1",
+          "Service": {
+            "Name": "room",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "booking",
+      "Config": [
+        {
+          "Name": "Booking Web API",
+          "Version": "v1",
+          "Service": {
+            "Name": "booking",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
+}

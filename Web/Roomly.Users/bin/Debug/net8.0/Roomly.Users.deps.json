@@ -648,6 +648,7 @@
       "Roomly.Rooms/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.0",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.0",
           "Roomly.Shared": "1.0.0",
           "Swashbuckle.AspNetCore": "6.6.2"
         },

@@ -30,11 +30,10 @@ public class UserService : IUserService
 
     public async Task<User> CreateUserAsync(RegisterViewModel registerViewModel)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerViewModel.Email);
+        var user = await _dbContext.Users
+            .FirstOrDefaultAsync(u => u.Email == registerViewModel.Email);
         if (user is not null)
-        {
             throw new EntityAlreadyExistsException();
-        }
         
         var userEntity = _mapper.Map<User>(registerViewModel);
 

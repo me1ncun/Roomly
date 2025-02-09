@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "tuMoEu8l3Z183A4Gxe4YVCsS4PRGYh1877ffh6EdLdg=",
+  "Source": "Roomly.ApiGateway",
+  "BasePath": "_content/Roomly.ApiGateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
