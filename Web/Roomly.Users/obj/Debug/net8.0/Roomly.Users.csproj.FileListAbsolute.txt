@@ -7,7 +7,6 @@ C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debu
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Roomly.Users.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Roomly.Users.pdb
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
@@ -246,3 +245,11 @@ D:\web-kpi\Web\Roomly.Users\obj\Debug\net8.0\refint\Roomly.Users.dll
 D:\web-kpi\Web\Roomly.Users\obj\Debug\net8.0\Roomly.Users.pdb
 D:\web-kpi\Web\Roomly.Users\obj\Debug\net8.0\Roomly.Users.genruntimeconfig.cache
 D:\web-kpi\Web\Roomly.Users\obj\Debug\net8.0\ref\Roomly.Users.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\MassTransit.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\MassTransit.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\RabbitMQ.Client.dll

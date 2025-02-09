@@ -1,15 +1,11 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Roomly.Rooms.Helpers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
+using Roomly.Shared.Auth.Services;
 using Roomly.Shared.Data;
-using Roomly.Shared.Data.Entities;
-using Roomly.Users.Infrastructure.Auth;
 using Roomly.Users.Infrastructure.Extensions;
 using Roomly.Users.Infrastructure.Handlers;
 using Roomly.Users.Infrastructure.Mappings;
-using Roomly.Users.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,31 +14,57 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "User API",
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"), sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"),
+        sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
 });
 
-builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IdentityService>();
 
 builder.Services.AddAutoMapper(typeof(UserProfile));
 
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)))
-    .AddScoped<JwtProvider>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-
-builder.Services.AddScoped<IAuthorizationHandler, RoleRequirementHandler>();
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-});
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
 var app = builder.Build();
@@ -53,11 +75,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.ApplyMigrations();
-    // await app.SeedRolesAsync();
 }
 
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.None
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

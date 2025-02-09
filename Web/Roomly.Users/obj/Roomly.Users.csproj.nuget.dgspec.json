@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\web-kpi\\Web\\Roomly.Users\\Roomly.Users.csproj": {}
+    "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Users\\Roomly.Users.csproj": {}
   },
   "projects": {
-    "D:\\web-kpi\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj": {
+    "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\web-kpi\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj",
+        "projectUniqueName": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj",
         "projectName": "Roomly.Rooms",
-        "projectPath": "D:\\web-kpi\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj",
-        "packagesPath": "C:\\Users\\desha\\.nuget\\packages\\",
-        "outputPath": "D:\\web-kpi\\Web\\Roomly.Rooms\\obj\\",
+        "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj",
+        "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
-                "projectPath": "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj"
+              "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
+                "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj"
               }
             }
           }
@@ -102,20 +103,20 @@
         }
       }
     },
-    "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
+    "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj",
         "projectName": "Roomly.Shared",
-        "projectPath": "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj",
-        "packagesPath": "C:\\Users\\desha\\.nuget\\packages\\",
-        "outputPath": "D:\\web-kpi\\Web\\Roomly.Shared\\obj\\",
+        "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj",
+        "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -124,6 +125,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -166,10 +168,6 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Microsoft.EntityFrameworkCore.Relational": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -179,6 +177,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.0.3, )"
             }
           },
           "imports": [
@@ -201,20 +203,20 @@
         }
       }
     },
-    "D:\\web-kpi\\Web\\Roomly.Users\\Roomly.Users.csproj": {
+    "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Users\\Roomly.Users.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\web-kpi\\Web\\Roomly.Users\\Roomly.Users.csproj",
+        "projectUniqueName": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Users\\Roomly.Users.csproj",
         "projectName": "Roomly.Users",
-        "projectPath": "D:\\web-kpi\\Web\\Roomly.Users\\Roomly.Users.csproj",
-        "packagesPath": "C:\\Users\\desha\\.nuget\\packages\\",
-        "outputPath": "D:\\web-kpi\\Web\\Roomly.Users\\obj\\",
+        "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Users\\Roomly.Users.csproj",
+        "packagesPath": "C:\\Users\\denis\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Users\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\desha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -223,17 +225,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\web-kpi\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj": {
-                "projectPath": "D:\\web-kpi\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj"
+              "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj": {
+                "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj"
               },
-              "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
-                "projectPath": "D:\\web-kpi\\Web\\Roomly.Shared\\Roomly.Shared.csproj"
+              "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj": {
+                "projectPath": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Shared\\Roomly.Shared.csproj"
               }
             }
           }
@@ -254,6 +257,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -264,10 +271,6 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Microsoft.IdentityModel.Tokens": {
-              "target": "Package",
-              "version": "[8.4.0, )"
-            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -275,10 +278,6 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.4.0, )"
             }
           },
           "imports": [

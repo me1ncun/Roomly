@@ -5,7 +5,7 @@ using Roomly.Shared.Data.Entities;
 
 namespace Roomly.Shared.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     

@@ -88,3 +88,13 @@ D:\web-kpi\Web\Roomly.Rooms\obj\Debug\net8.0\refint\Roomly.Rooms.dll
 D:\web-kpi\Web\Roomly.Rooms\obj\Debug\net8.0\Roomly.Rooms.pdb
 D:\web-kpi\Web\Roomly.Rooms\obj\Debug\net8.0\Roomly.Rooms.genruntimeconfig.cache
 D:\web-kpi\Web\Roomly.Rooms\obj\Debug\net8.0\ref\Roomly.Rooms.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\MassTransit.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\MassTransit.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\MassTransit.RabbitMqTransport.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\RabbitMQ.Client.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Rooms\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

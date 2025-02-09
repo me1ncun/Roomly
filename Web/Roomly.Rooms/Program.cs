@@ -1,13 +1,10 @@
 using MassTransit;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Roomly.Rooms.Helpers;
 using Roomly.Rooms.Services;
+using Roomly.Shared.Auth;
 using Roomly.Shared.Data;
-using Roomly.Shared.Data.Entities;
-using Roomly.Users.Infrastructure.Handlers;
 using Roomly.Users.Infrastructure.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,23 +25,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(RoomProfile));
 
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-builder.Services.AddScoped<IAuthorizationHandler, RoleRequirementHandler>();
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-});
-
-var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+/*var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
 {
     cfg.ReceiveEndpoint("order-created-event", e =>
     {
         e.Consumer<OrderCreatedConsumer>();
     });
-});
+});*/
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 var app = builder.Build();
 
@@ -57,6 +47,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.None
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
