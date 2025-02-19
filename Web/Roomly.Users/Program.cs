@@ -51,8 +51,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"),
-        sqlOptions => sqlOptions.MigrationsAssembly("Roomly.Users"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"));
 });
 
 builder.Services.AddScoped<IdentityService>();
@@ -64,7 +63,6 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 
 var app = builder.Build();
 

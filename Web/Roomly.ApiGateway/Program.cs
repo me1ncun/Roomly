@@ -1,36 +1,17 @@
-using MMLib.Ocelot.Provider.AppConfiguration;
-using MMLib.SwaggerForOcelot.DependencyInjection;
-using Ocelot.DependencyInjection;
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Configuration.AddOcelotWithSwaggerSupport(options =>
+internal sealed class Program
 {
-    options.Folder = "OcelotConfiguration";
-});
+    public static void Main(string[] args)
+    {
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseKestrel()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseStartup<Startup>()
+                    .UseUrls("http://localhost:5295");
+            })
+            .Build();
 
-builder.Services.AddOcelot(builder.Configuration).AddAppConfiguration();
-builder.Services.AddSwaggerForOcelot(builder.Configuration);
-
-builder.Services.AddOcelot();
-
-builder.Services.AddMvcCore();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        host.Run();
+    }
 }
-
-app.UseSwaggerForOcelotUI(opt =>
-{
-    opt.PathToSwaggerGenerator = "/swagger/docs";
-
-});
-
-app.Run();
