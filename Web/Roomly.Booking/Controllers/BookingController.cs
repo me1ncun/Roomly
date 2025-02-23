@@ -1,11 +1,7 @@
-using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Roomly.Booking.Services;
 using Roomly.Booking.ViewModels;
 using Roomly.Users.Infrastructure.Exceptions;
-using StackExchange.Redis;
 
 namespace Roomly.Booking.Controllers;
 
@@ -14,14 +10,14 @@ namespace Roomly.Booking.Controllers;
 public class BookingController : ControllerBase
 {
     private readonly IBookingService _bookingService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly UserService _userService;
 
     public BookingController(
         IBookingService bookingService,
-        IHttpContextAccessor httpContextAccessor)
+        UserService userService)
     {
         _bookingService = bookingService;
-        _httpContextAccessor = httpContextAccessor;
+        _userService = userService;
     }
 
     [HttpPost]
@@ -29,7 +25,9 @@ public class BookingController : ControllerBase
     {
         try
         {
-            await _bookingService.CreateBookingAsync(bookingViewModel, GetUserId());
+            var userId = _userService.GetUserId();
+            
+            await _bookingService.CreateBookingAsync(bookingViewModel, userId);
             
             return Ok();
         }
@@ -48,7 +46,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            var userId = GetUserId();
+            var userId = _userService.GetUserId();
             
             var bookings = await _bookingService.GetUserBookingsAsync(userId);
                 
@@ -73,17 +71,5 @@ public class BookingController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
-    
-    private Guid GetUserId()
-    {
-        var userIdClaim  = _httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (string.IsNullOrEmpty(userIdClaim))
-        {
-            throw new UnauthorizedAccessException("User is not authenticated");
-        }
-
-        return Guid.Parse(userIdClaim);
     }
 }

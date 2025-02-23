@@ -113,8 +113,8 @@ public class AuthController : ControllerBase
                 new Claim("Name", registrationViewModel.Name),
                 new Claim("Email", registrationViewModel.Email),
             };
-            await _userManager.AddClaimsAsync(identity, newClaims);
             
+            await _userManager.AddClaimsAsync(identity, newClaims);
             await _userManager.AddToRoleAsync(identity, Roles.Administrator.ToString());
             
             return Ok();

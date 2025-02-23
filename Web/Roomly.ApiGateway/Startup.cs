@@ -1,5 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-using Ocelot.DependencyInjection;
+﻿using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 public class Startup

@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
+using Roomly.Rooms.Extensions;
 using Roomly.Shared.Auth.Services;
 using Roomly.Shared.Data;
 using Roomly.Users.Infrastructure.Extensions;
-using Roomly.Users.Infrastructure.Handlers;
-using Roomly.Users.Infrastructure.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,10 +29,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IdentityService>();
-
-builder.Services.AddAutoMapper(typeof(UserProfile));
-
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 

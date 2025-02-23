@@ -2,7 +2,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
-using Roomly.Booking.Mappings;
 using Roomly.Booking.Services;
 using Roomly.Rooms.Extensions;
 using Roomly.Shared.Data;
@@ -45,6 +44,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -52,8 +52,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.Configure<RabbitOptions>(builder.Configuration.GetSection("RabbitOptions"));
-
-builder.Services.AddAutoMapper(typeof(BookingProfile));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 

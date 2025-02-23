@@ -44,7 +44,6 @@ public class BookingService : IBookingService
         _logger.LogInformation($"Checking availability for Room {bookingViewModel.RoomId} from {bookingViewModel.StartTime} to {bookingViewModel.EndTime}");
         
         var response = await _requestClient.GetResponse<AvailabilityResponse>(availabilityViewModel);
-
         if (!response.Message.IsAvailable)
         {
             _logger.LogWarning($"Room {bookingViewModel.RoomId} is not available for booking.");
@@ -116,7 +115,6 @@ public class BookingService : IBookingService
         var availableSlot = await _dbContext.AvailableSlots.FirstOrDefaultAsync(s => s.RoomId == booking.RoomId
             && s.StartTime == booking.StartTime
             && s.EndTime == booking.EndTime);
-        
         if (availableSlot is null)
         {
             throw new Exception("Slot is not available");

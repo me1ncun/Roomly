@@ -15,11 +15,4 @@ public static  class HashPasswordHelper
             return hash;
         }
     }
-    
-    public static bool VerifyPassword(string password, string userPassword)
-    {
-        var hashedPassword = HashPassword(password);
-    
-        return hashedPassword == userPassword;
-    }
 }
