@@ -8,8 +8,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Web/Roomly.Users/Roomly.Users.csproj", "Web/Roomly.Users/"]
-COPY ["Web/Roomly.Rooms/Roomly.Rooms.csproj", "Web/Roomly.Rooms/"]
 COPY ["Web/Roomly.Shared/Roomly.Shared.csproj", "Web/Roomly.Shared/"]
+COPY ["Web/Roomly.Rooms/Roomly.Rooms.csproj", "Web/Roomly.Rooms/"]
+RUN dotnet restore "Web/Roomly.Shared/Roomly.Shared.csproj"
 RUN dotnet restore "Web/Roomly.Users/Roomly.Users.csproj"
 COPY . .
 WORKDIR "/src/Web/Roomly.Users"

@@ -6,6 +6,7 @@ using Roomly.Shared.Auth.Services;
 using Roomly.Shared.Data.Enums;
 using Roomly.Users.Infrastructure.Exceptions;
 using Roomly.Users.ViewModels;
+using StackExchange.Redis;
 
 namespace Roomly.Users.Controllers;
 
@@ -52,6 +53,7 @@ public class AuthController : ControllerBase
 
             var claimsIdentity = new ClaimsIdentity(new Claim[]
             {
+                new(ClaimTypes.NameIdentifier, user.Id),
                 new(JwtRegisteredClaimNames.Email, user.Email),
             });
 
@@ -72,6 +74,8 @@ public class AuthController : ControllerBase
                 Secure = true,
                 SameSite = SameSiteMode.None
             });
+            
+            Response.Headers.Add("Authorization", "Bearer " + response);
 
             return Ok(response);
         }

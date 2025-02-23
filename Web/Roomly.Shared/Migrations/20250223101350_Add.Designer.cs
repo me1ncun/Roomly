@@ -9,11 +9,11 @@ using Roomly.Shared.Data;
 
 #nullable disable
 
-namespace Roomly.Users.Migrations
+namespace Roomly.Rooms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250209090748_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250223101350_Add")]
+    partial class Add
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

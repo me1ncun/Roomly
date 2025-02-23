@@ -22,36 +22,11 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "User API",
     });
-
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        In = ParameterLocation.Header,
-        Description = "Please insert JWT with Bearer into field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
-
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"));
+    options.UseNpgsql("Host=postgres;Port=5432;Database=roomly;Username=postgres;Password=postgres;", b => b.MigrationsAssembly("Roomly.Shared")); ;
 });
 
 builder.Services.AddScoped<IdentityService>();

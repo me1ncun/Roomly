@@ -1,7 +1,11 @@
+using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Roomly.Booking.Services;
 using Roomly.Booking.ViewModels;
 using Roomly.Users.Infrastructure.Exceptions;
+using StackExchange.Redis;
 
 namespace Roomly.Booking.Controllers;
 
@@ -10,10 +14,14 @@ namespace Roomly.Booking.Controllers;
 public class BookingController : ControllerBase
 {
     private readonly IBookingService _bookingService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public BookingController(IBookingService bookingService)
+    public BookingController(
+        IBookingService bookingService,
+        IHttpContextAccessor httpContextAccessor)
     {
         _bookingService = bookingService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
@@ -21,7 +29,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            await _bookingService.CreateBookingAsync(bookingViewModel);
+            await _bookingService.CreateBookingAsync(bookingViewModel, GetUserId());
             
             return Ok();
         }
@@ -35,13 +43,15 @@ public class BookingController : ControllerBase
         }
     }
 
-    [HttpGet("{userId:guid}")]
-    public async Task<IActionResult> GetBookings(Guid userId)
+    [HttpGet]
+    public async Task<IActionResult> GetBookings()
     {
         try
         {
-            var bookings = await _bookingService.GetUserBookingsAsync(userId);
+            var userId = GetUserId();
             
+            var bookings = await _bookingService.GetUserBookingsAsync(userId);
+                
             return Ok(bookings);
         }
         catch (Exception ex)
@@ -63,5 +73,17 @@ public class BookingController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+    
+    private Guid GetUserId()
+    {
+        var userIdClaim  = _httpContextAccessor.HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            throw new UnauthorizedAccessException("User is not authenticated");
+        }
+
+        return Guid.Parse(userIdClaim);
     }
 }

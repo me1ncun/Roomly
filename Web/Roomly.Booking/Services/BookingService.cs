@@ -10,7 +10,7 @@ namespace Roomly.Booking.Services;
 
 public interface IBookingService
 {
-    Task CreateBookingAsync(BookingCreateViewModel bookingViewModel);
+    Task CreateBookingAsync(BookingCreateViewModel bookingViewModel, Guid userId);
     Task<List<BookingViewModel>> GetUserBookingsAsync(Guid userId);
     Task CancelBookingAsync(Guid bookingId);
 }
@@ -31,11 +31,11 @@ public class BookingService : IBookingService
         _requestClient = requestClient;
     }
 
-    public async Task CreateBookingAsync(BookingCreateViewModel bookingViewModel)
+    public async Task CreateBookingAsync(BookingCreateViewModel bookingViewModel, Guid userId)
     {
         var availabilityViewModel = new AvailabilityRoomViewModel()
         {
-            UserId = bookingViewModel.UserId,
+            UserId = userId,
             RoomId = bookingViewModel.RoomId,
             StartTime = bookingViewModel.StartTime,
             EndTime = bookingViewModel.EndTime
@@ -54,18 +54,28 @@ public class BookingService : IBookingService
 
         var booking = new Shared.Data.Entities.Booking
         {
-            UserId = bookingViewModel.UserId,
+            UserId = userId,
             RoomId = bookingViewModel.RoomId,
             StartTime = bookingViewModel.StartTime,
             EndTime = bookingViewModel.EndTime,
             Status = BookingStatus.Confirmed,
             CreatedAt = DateTime.UtcNow,
         };
+        
+        var availableSlot = await _dbContext.AvailableSlots.FirstOrDefaultAsync(s => s.RoomId == bookingViewModel.RoomId
+            && s.StartTime == bookingViewModel.StartTime
+            && s.EndTime == bookingViewModel.EndTime);
+        if (availableSlot is null)
+        {
+            throw new Exception("Slot is not available");
+        }
+        
+        availableSlot.IsAvailable = false;
 
         await _dbContext.Bookings.AddAsync(booking);
         await _dbContext.SaveChangesAsync();
 
-        _logger.LogInformation($"Booking created successfully for User {bookingViewModel.UserId}, Room {bookingViewModel.RoomId}");
+        _logger.LogInformation($"Booking created successfully for User {userId}, Room {bookingViewModel.RoomId}");
     }
 
     public async Task<List<BookingViewModel>> GetUserBookingsAsync(Guid userId)
@@ -76,7 +86,10 @@ public class BookingService : IBookingService
             .Where(b => b.UserId == userId)
             .Select(b => new BookingViewModel()
             {
-                UserId = b.User.Id,
+                BookingId = b.Id,
+                Status = b.Status,
+                RoomId = b.Room.Id,
+                UserId = b.UserId,
                 RoomName = b.Room.Name,
                 UserEmail = b.User.Email,
                 RoomLocation = b.Room.Location,
@@ -99,6 +112,17 @@ public class BookingService : IBookingService
             throw new EntityNotFoundException();
 
         booking.Status = BookingStatus.Cancelled;
+        
+        var availableSlot = await _dbContext.AvailableSlots.FirstOrDefaultAsync(s => s.RoomId == booking.RoomId
+            && s.StartTime == booking.StartTime
+            && s.EndTime == booking.EndTime);
+        
+        if (availableSlot is null)
+        {
+            throw new Exception("Slot is not available");
+        }
+        
+        availableSlot.IsAvailable = true;
         
         _logger.LogInformation($"Booking with id {bookingId} has been cancelled.");
         

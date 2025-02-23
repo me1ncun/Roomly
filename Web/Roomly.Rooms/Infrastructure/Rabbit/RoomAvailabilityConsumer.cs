@@ -24,9 +24,9 @@ public class RoomAvailabilityConsumer: IConsumer<AvailabilityRoomViewModel>
 
         bool isAvailable = await _dbContext.AvailableSlots
             .AnyAsync(slot => slot.RoomId == request.RoomId &&
-                              slot.StartTime <= request.StartTime &&
-                              slot.EndTime >= request.EndTime &&
-                              slot.IsAvailable);
+                              slot.StartTime == request.StartTime &&
+                              slot.EndTime == request.EndTime &&
+                              slot.IsAvailable == true);
 
         _logger.LogInformation($"Availability check for Room {request.RoomId}: {isAvailable}");
 

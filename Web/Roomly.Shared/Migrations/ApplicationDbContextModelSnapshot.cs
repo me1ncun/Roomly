@@ -8,7 +8,7 @@ using Roomly.Shared.Data;
 
 #nullable disable
 
-namespace Roomly.Users.Migrations
+namespace Roomly.Rooms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

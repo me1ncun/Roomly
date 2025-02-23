@@ -10,8 +10,8 @@ namespace Roomly.Rooms.Services;
 public interface IRoomService
 {
     Task CreateRoomAsync(RoomViewModel roomViewModel);
-    Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync();
-    Task<List<AvailableSlotViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId);
+    Task<List<RoomViewModel>> GetRoomsAsync();
+    Task<List<AvailableRoomViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId);
 }
 
 public class RoomService : IRoomService
@@ -47,21 +47,17 @@ public class RoomService : IRoomService
         _logger.LogInformation($"Room {roomViewModel.Name} has been created");
     }
 
-    public async Task<List<AvailableRoomViewModel>> GetAvailableRoomsAsync()
+    public async Task<List<RoomViewModel>> GetRoomsAsync()
     {
-        var rooms = await _dbContext.AvailableSlots
-            .Include(s => s.Room)
-            .Where(slot => slot.IsAvailable == true) 
-            .Select(slot => new AvailableRoomViewModel()
+        var rooms = await _dbContext.Rooms
+            .Select(room => new RoomViewModel()
             {
-                RoomId = slot.RoomId,
-                RoomName = slot.Room.Name,
-                RoomDescription = slot.Room.Description,
-                RoomLocation = slot.Room.Location,
-                RoomCapacity = slot.Room.Capacity,
-                StartTime = slot.StartTime,
-                EndTime = slot.EndTime,
-                IsAvailable = slot.IsAvailable
+                Id = room.Id,
+                Name = room.Name,
+                Capacity = room.Capacity,
+                Location = room.Location,
+                Type = room.Type,
+                Description = room.Description
             })
             .ToListAsync();
         
@@ -70,13 +66,14 @@ public class RoomService : IRoomService
         return rooms;
     }
 
-    public async Task<List<AvailableSlotViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId)
+    public async Task<List<AvailableRoomViewModel>> GetAvailableSlotsByRoomIdAsync(Guid roomId)
     {
         var rooms = await _dbContext.AvailableSlots
-            .Where(slot => slot.RoomId == roomId) 
-            .Select(slot => new AvailableSlotViewModel
+            .Include(r => r.Room)
+            .Where(slot => slot.RoomId == roomId && slot.IsAvailable == true) 
+            .Select(slot => new AvailableRoomViewModel
             {
-                RoomId = slot.RoomId,
+                RoomId = slot.Room.Id,
                 StartTime = slot.StartTime,
                 EndTime = slot.EndTime,
                 IsAvailable = slot.IsAvailable

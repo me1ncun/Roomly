@@ -2,16 +2,16 @@ internal sealed class Program
 {
     public static void Main(string[] args)
     {
-        var host = Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseKestrel()
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseStartup<Startup>()
-                    .UseUrls("http://localhost:5295");
-            })
-            .Build();
+        var builder = WebApplication.CreateBuilder(args);
 
-        host.Run();
+        var startup = new Startup();
+        
+        startup.ConfigureServices(builder.Services);
+        
+        var app = builder.Build();
+
+        startup.Configure(app, app.Environment);
+
+        app.Run();
     }
 }

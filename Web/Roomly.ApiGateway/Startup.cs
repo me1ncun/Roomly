@@ -1,4 +1,5 @@
-﻿using Ocelot.DependencyInjection;
+﻿using Microsoft.OpenApi.Models;
+using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 public class Startup
@@ -15,8 +16,8 @@ public class Startup
         services.AddOcelot(Configuration);
     }
 
-    public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        await app.UseOcelot();
+        app.UseOcelot().Wait();
     }
 }

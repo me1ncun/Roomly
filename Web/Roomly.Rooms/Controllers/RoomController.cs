@@ -38,17 +38,17 @@ public class RoomController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAvailableRooms()
+    public async Task<IActionResult> GetRooms()
     {
-        var rooms = await _roomService.GetAvailableRoomsAsync();
+        var rooms = await _roomService.GetRoomsAsync();
         
         return Ok(rooms);
     }
     
-    [HttpGet("{id:guid}/slots")]
-    public async Task<IActionResult> GetAvailableSlots(Guid id)
+    [HttpGet("{roomId:guid}/slots")]
+    public async Task<IActionResult> GetAvailableSlots(Guid roomId)
     {
-        var rooms = await _roomService.GetAvailableSlotsByRoomIdAsync(id);
+        var rooms = await _roomService.GetAvailableSlotsByRoomIdAsync(roomId);
         
         return Ok(rooms);
     }
