@@ -253,3 +253,4 @@ C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debu
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\RabbitMQ.Client.dll
+C:\Users\denis\OneDrive\Рабочий стол\Roomly\Web\Roomly.Users\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll
