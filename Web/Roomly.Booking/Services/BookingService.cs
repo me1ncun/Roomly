@@ -96,6 +96,7 @@ public class BookingService : IBookingService
                 RoomType = b.Room.Type,
                 StartTime = b.StartTime,
                 EndTime = b.EndTime,
+                
             })
             .ToListAsync();
         

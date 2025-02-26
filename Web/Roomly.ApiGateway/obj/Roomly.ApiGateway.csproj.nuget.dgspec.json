@@ -51,18 +51,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "MMLib.Ocelot.Provider.AppConfiguration": {
-              "target": "Package",
-              "version": "[3.0.0, )"
-            },
-            "MMLib.SwaggerForOcelot": {
-              "target": "Package",
-              "version": "[8.3.2, )"
-            },
-            "Microsoft.Extensions.Configuration.Json": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
             "Ocelot": {
               "target": "Package",
               "version": "[23.4.3, )"

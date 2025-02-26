@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Roomly.Booking")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d803f82f4e471bb1bbb382f34793b88137e4bff2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43a6d740292e9e4dce8e1b8fe396f7259d01922d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Roomly.Booking")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Roomly.Booking")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
