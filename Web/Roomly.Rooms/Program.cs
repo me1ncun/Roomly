@@ -61,6 +61,11 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
+
+        builder.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -73,17 +78,17 @@ builder.Services.AddAutoMapper(typeof(RoomProfile));
 
 var rabbitOptions = builder.Configuration.GetSection("RabbitOptions").Get<RabbitOptions>();
 
-builder.Services.AddMassTransit(m=>
+builder.Services.AddMassTransit(m =>
 {
     m.AddConsumers(typeof(RoomAvailabilityConsumer));
-    m.UsingRabbitMq((ctx,cfg)=>
+    m.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.ReceiveEndpoint("room-availability-queue", e =>
         {
             e.ConfigureConsumer<RoomAvailabilityConsumer>(ctx);
         });
-        
-        cfg.Host(rabbitOptions.HostName,"/",c=>
+
+        cfg.Host(rabbitOptions.HostName, "/", c =>
         {
             c.Username(rabbitOptions.UserName);
             c.Password(rabbitOptions.Password);
