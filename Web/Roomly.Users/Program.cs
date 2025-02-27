@@ -28,6 +28,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql("Host=postgres;Port=5432;Database=roomly;Username=postgres;Password=postgres;", b => b.MigrationsAssembly("Roomly.Shared")); ;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:7001")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 builder.Services.AddScoped<IdentityService>();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
@@ -45,6 +56,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseCookiePolicy(new CookiePolicyOptions
 {
