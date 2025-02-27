@@ -4,7 +4,7 @@ import { initRooms } from '../../features/roomsSlice';
 import { Loader } from '../Loader';
 import { Room } from '../../types/Room';
 
-export const PeoplePage = () => {
+export const RoomsPage = () => {
   const dispatch = useAppDispatch();
   const { rooms, loaded, hasError } = useAppSelector(state => state.rooms);
 

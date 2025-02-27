@@ -21,8 +21,8 @@ export const App = () => (
             Home
           </NavLink>
 
-          <NavLink className={getLinkActiveClass} to="/people">
-            People
+          <NavLink className={getLinkActiveClass} to="/rooms">
+            Rooms
           </NavLink>
         </div>
       </div>
