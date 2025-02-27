@@ -8,11 +8,11 @@ import { App } from "./App";
 import { HomePage } from "./components/HomePage";
 import { PeoplePage } from "./components/PeoplePage";
 import { NotFoundPage } from "./components/NotFoundPage";
-// import { Provider } from "react-redux";
-// import { store } from "./app/store";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 export const Root = () => (
-  // <Provider store={store}>
+  <Provider store={store}>
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
@@ -25,5 +25,5 @@ export const Root = () => (
         </Route>
       </Routes>
     </Router>
-  // </Provider>
+  </Provider>
 );

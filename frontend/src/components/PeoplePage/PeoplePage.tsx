@@ -1,59 +1,62 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { initRooms } from '../../features/roomsSlice';
 import { Loader } from '../Loader';
-import { Person } from '../../types';
-import { getPeople } from '../../api';
-import { PeopleTable } from '../PeopleTable/PeopleTable';
+import { Room } from '../../types/Room';
 
 export const PeoplePage = () => {
-  const [people, setPeople] = useState<Person[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const dispatch = useAppDispatch();
+  const { rooms, loaded, hasError } = useAppSelector(state => state.rooms);
 
   useEffect(() => {
-    const fetchPeople = async () => {
-      setLoading(true);
-      try {
-        const peopleData = await getPeople();
-
-        setPeople(peopleData);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPeople();
-  }, []);
+    dispatch(initRooms());
+  }, [dispatch]);
 
   return (
-    <>
-      <main className="section">
-        <div className="container">
-          <br />
-          <br />
-          <h1 className="title">People Page</h1>
-          <div className="block">
-            <div className="box table-container">
-              {loading && <Loader />}
+    <main className="section">
+      <div className="container">
+        <br />
+        <br />
+        <h1 className="title">Meeting Rooms</h1>
+        <div className="block">
+          <div className="box table-container">
+            {!loaded && <Loader />}
 
-              {error && (
-                <p data-cy="peopleLoadingError" className="has-text-danger">
-                  Something went wrong
-                </p>
-              )}
+            {hasError && (
+              <p data-cy="roomsLoadingError" className="has-text-danger">
+                Something went wrong: {hasError}
+              </p>
+            )}
 
-              {people.length === 0 && !loading && !error && (
-                <p data-cy="noPeopleMessage">
-                  There are no people on the server
-                </p>
-              )}
+            {loaded && rooms.length === 0 && !hasError && (
+              <p data-cy="noRoomsMessage">
+                No available meeting rooms
+              </p>
+            )}
 
-              {people.length > 0 && <PeopleTable people={people} />}
-            </div>
+            {loaded && rooms.length > 0 && (
+              <table className="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Capacity</th>
+                    <th>Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rooms.map((room: Room) => (
+                    <tr key={room.id}>
+                      <td>{room.name}</td>
+                      <td>{room.capacity}</td>
+                      <td>{room.location}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
