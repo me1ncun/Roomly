@@ -53,7 +53,7 @@ export const roomsSlice = createSlice({
       state.loaded = true;
     });
     builder.addCase(initRooms.rejected, (state, action) => {
-      state.hasError = action.error.message || '';
+      state.hasError = action.error.message || 'Failed to load rooms';
       state.loaded = true;
     });
   },

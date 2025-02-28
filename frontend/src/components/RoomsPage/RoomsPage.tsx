@@ -1,12 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { initRooms, sortRooms } from '../../features/roomsSlice';
 import { Loader } from '../Loader';
 import { Room } from '../../types/Room';
+import { RoomSlotsModal } from '../RoomSlotsModal/RoomSlotsModal';
 
 export const RoomsPage = () => {
   const dispatch = useAppDispatch();
   const { rooms, loaded, hasError, sortBy, sortOrder } = useAppSelector(state => state.rooms);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+  const [selectedRoomName, setSelectedRoomName] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(initRooms());
@@ -23,6 +26,11 @@ export const RoomsPage = () => {
   };
 
   const getRoomType = (type: number) => (type === 0 ? 'Meeting Room' : 'Workplace');
+
+  const handleViewSlots = (roomId: string, roomName: string) => {
+    setSelectedRoomId(roomId);
+    setSelectedRoomName(roomName);
+  };
 
   return (
     <main className="section">
@@ -54,6 +62,7 @@ export const RoomsPage = () => {
                       </th>
                     ))}
                     <th>Description</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -62,10 +71,16 @@ export const RoomsPage = () => {
                       <td>{room.name}</td>
                       <td>{room.capacity}</td>
                       <td>{room.location}</td>
-                      <td>
-                        {getRoomType(room.type)}
-                      </td>
+                      <td>{getRoomType(room.type)}</td>
                       <td>{room.description}</td>
+                      <td>
+                        <button
+                          className="button"
+                          onClick={() => handleViewSlots(room.id, room.name)}
+                        >
+                          View Slots
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -74,6 +89,15 @@ export const RoomsPage = () => {
           </div>
         </div>
       </div>
+
+      <RoomSlotsModal
+        roomId={selectedRoomId}
+        roomName={selectedRoomName}
+        onClose={() => {
+          setSelectedRoomId(null);
+          setSelectedRoomName(null);
+        }}
+      />
     </main>
   );
 };
