@@ -5,7 +5,7 @@ export const createRoom = (data: Omit<Comment, 'id'>) => {
   return client.post<Room>('/api/rooms', data);
 };
 
-export const getSelectedRoom = (roomId: number) => {
+export const getSelectedRoom = (roomId: string) => {
   return client.get<Room>(`/api/rooms/${roomId}/slots`);
 };
 

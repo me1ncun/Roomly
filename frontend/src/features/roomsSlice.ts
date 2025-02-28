@@ -6,12 +6,16 @@ export type RoomsState = {
   rooms: Room[];
   loaded: boolean;
   hasError: string;
-}
+  sortBy: keyof Room | null;
+  sortOrder: 'asc' | 'desc';
+};
 
 const initialState: RoomsState = {
   rooms: [],
   loaded: false,
   hasError: '',
+  sortBy: null,
+  sortOrder: 'asc',
 };
 
 export const initRooms = createAsyncThunk('rooms/fetch', async () => {
@@ -22,8 +26,21 @@ export const roomsSlice = createSlice({
   name: "rooms",
   initialState,
   reducers: {
-    clearRooms: state => {
-      state.rooms = [];
+    sortRooms: (state, action: PayloadAction<keyof Room>) => {
+      const column = action.payload;
+      if (column === 'description') return;
+      
+      if (state.sortBy === column) {
+        state.sortOrder = state.sortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        state.sortBy = column;
+        state.sortOrder = 'asc';
+      }
+      state.rooms.sort((a, b) => {
+        if (a[column] < b[column]) return state.sortOrder === 'asc' ? -1 : 1;
+        if (a[column] > b[column]) return state.sortOrder === 'asc' ? 1 : -1;
+        return 0;
+      });
     },
   },
   extraReducers: builder => {
@@ -42,5 +59,5 @@ export const roomsSlice = createSlice({
   },
 });
 
-export const { clearRooms } = roomsSlice.actions;
+export const { sortRooms } = roomsSlice.actions;
 export default roomsSlice.reducer;

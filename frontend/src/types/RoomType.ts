@@ -1,3 +1,1 @@
-export interface RoomType {
-  type: number;
-}
+export type RoomType = 0 | 1;

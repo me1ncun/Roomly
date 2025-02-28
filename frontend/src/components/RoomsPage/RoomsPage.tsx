@@ -1,16 +1,28 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { initRooms } from '../../features/roomsSlice';
+import { initRooms, sortRooms } from '../../features/roomsSlice';
 import { Loader } from '../Loader';
 import { Room } from '../../types/Room';
 
 export const RoomsPage = () => {
   const dispatch = useAppDispatch();
-  const { rooms, loaded, hasError } = useAppSelector(state => state.rooms);
+  const { rooms, loaded, hasError, sortBy, sortOrder } = useAppSelector(state => state.rooms);
 
   useEffect(() => {
     dispatch(initRooms());
   }, [dispatch]);
+
+  const handleSort = (column: keyof Room) => {
+    if (column !== 'description') {
+      dispatch(sortRooms(column));
+    }
+  };
+
+  const getColumnTitle = (key: string) => {
+    return `${key.charAt(0).toUpperCase() + key.slice(1)} ${sortBy === key ? (sortOrder === 'asc' ? '' : '') : ''}`;
+  };
+
+  const getRoomType = (type: number) => (type === 0 ? 'Meeting Room' : 'Workplace');
 
   return (
     <main className="section">
@@ -29,26 +41,31 @@ export const RoomsPage = () => {
             )}
 
             {loaded && rooms.length === 0 && !hasError && (
-              <p data-cy="noRoomsMessage">
-                No available meeting rooms
-              </p>
+              <p data-cy="noRoomsMessage">No available meeting rooms</p>
             )}
 
             {loaded && rooms.length > 0 && (
               <table className="table is-fullwidth is-striped">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Capacity</th>
-                    <th>Location</th>
+                    {['name', 'capacity', 'location', 'type'].map((key) => (
+                      <th key={key} className="is-clickable" onClick={() => handleSort(key as keyof Room)}>
+                        {getColumnTitle(key)}
+                      </th>
+                    ))}
+                    <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {rooms.map((room: Room) => (
+                  {rooms.map((room) => (
                     <tr key={room.id}>
                       <td>{room.name}</td>
                       <td>{room.capacity}</td>
                       <td>{room.location}</td>
+                      <td>
+                        {getRoomType(room.type)}
+                      </td>
+                      <td>{room.description}</td>
                     </tr>
                   ))}
                 </tbody>
