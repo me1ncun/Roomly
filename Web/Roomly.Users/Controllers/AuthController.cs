@@ -125,7 +125,7 @@ public class AuthController : ControllerBase
         }
     }
     
-    [HttpPost("/logout")]
+    [HttpPost("logout")]
     public IActionResult Logout()
     {
         try

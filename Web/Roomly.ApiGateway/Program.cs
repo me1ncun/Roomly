@@ -1,13 +1,13 @@
-internal sealed class Program
-{
-    public static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
-        var startup = new Startup();
-        startup.ConfigureServices(builder.Services);
-        
-        var app = builder.Build();
-        startup.Configure(app, app.Environment);
-        app.Run();
-    }
-}
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Services.AddOcelot(builder.Configuration);
+
+var app = builder.Build();
+
+await app.UseOcelot();
+
+app.Run();

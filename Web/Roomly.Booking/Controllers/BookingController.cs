@@ -44,13 +44,17 @@ public class BookingController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBookings()
     {
-        try
+        try 
         {
             var userId = _userService.GetUserId();
             
             var bookings = await _bookingService.GetUserBookingsAsync(userId);
                 
             return Ok(bookings);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(ex.Message);
         }
         catch (Exception ex)
         {
