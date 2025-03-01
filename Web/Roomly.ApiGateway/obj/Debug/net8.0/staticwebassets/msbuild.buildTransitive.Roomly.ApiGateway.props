@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Roomly.ApiGateway.props" />
-</Project>

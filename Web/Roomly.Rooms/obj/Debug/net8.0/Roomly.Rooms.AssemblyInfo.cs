@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Roomly.Rooms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43a6d740292e9e4dce8e1b8fe396f7259d01922d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75f2f50786592dac4b92f7adee4054a411e8381a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Roomly.Rooms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Roomly.Rooms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
