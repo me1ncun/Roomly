@@ -32,33 +32,39 @@ export const RoomSlotsModal: React.FC<Props> = ({ roomId, roomName, onClose }) =
       <div className="modal-background" onClick={onClose}></div>
       <div className="modal-content">
         <div className="box">
-          <h2 className="is-size-3 has-text-weight-bold">Available Slots for {roomName}</h2>
+          <h2 className="is-size-3 has-text-weight-bold has-text-centered">
+            Available Slots for {roomName}
+          </h2>
           {!loaded && <Loader />}
-
+  
           {hasError && (
-            <p data-cy="roomsLoadingError" className="has-text-danger">
+            <p data-cy="roomsLoadingError" className="has-text-danger has-text-centered">
               Something went wrong: {hasError}
             </p>
           )}
-
+  
           {loaded && slots.length === 0 && !hasError && (
-            <p data-cy="noRoomsMessage">No available slots</p>
+            <p data-cy="noRoomsMessage" className="has-text-centered">No available slots</p>
           )}
-
+  
           {loaded && slots.length > 0 && (
-            <ul>
+            <div className="is-flex is-flex-direction-column">
               {slots.map((slot: RoomSlot) => (
-                <li key={slot.startTime}>
-                  {new Date(slot.startTime).toLocaleTimeString()} -{" "}
-                  {new Date(slot.endTime).toLocaleTimeString()}
-                  {slot.isAvailable ? (
-                    <span className="tag is-success">Available</span>
-                  ) : (
-                    <span className="tag is-danger">Booked</span>
-                  )}
-                </li>
+                <div 
+                  key={slot.startTime} 
+                  className="is-flex is-align-items-center is-justify-content-space-between p-2"
+                  style={{ borderBottom: "1px solid #ddd" }}
+                >
+                  <span className="is-size-5">
+                    {new Date(slot.startTime).toLocaleTimeString()} -{" "}
+                    {new Date(slot.endTime).toLocaleTimeString()}
+                  </span>
+                  <span className="tag is-success is-light is-medium is-fullwidth has-text-centered">
+                    Available
+                  </span>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>
@@ -68,5 +74,5 @@ export const RoomSlotsModal: React.FC<Props> = ({ roomId, roomName, onClose }) =
         onClick={onClose}
       ></button>
     </div>
-  );
+  );  
 };
