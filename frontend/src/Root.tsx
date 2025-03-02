@@ -10,9 +10,9 @@ import { RoomsPage } from "./components/RoomsPage";
 import { NotFoundPage } from "./components/NotFoundPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import { AuthProvider } from "./auth/AuthContext";
 import { LoginPage } from "./components/LoginPage";
 import { RequireAuth } from "./components/RequireAuth";
+import { AuthProvider } from "./auth/AuthProvider";
 
 export const Root = () => (
   <Provider store={store}>
