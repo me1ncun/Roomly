@@ -1,9 +1,8 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../store/AuthContext';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 export const RequireAuth = () => {
-  const { authorized } = useContext(AuthContext);
+  const authorized = useAppSelector((state) => state.auth.authorized);
   const { pathname } = useLocation();
 
   if (!authorized) {

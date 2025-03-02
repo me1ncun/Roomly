@@ -1,15 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from './store/AuthContext';
-import classNames from 'classnames';
+import { NavLink, Outlet } from "react-router-dom";
+import classNames from "classnames";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { logout } from "./features/authSlice";
 
 const getLinkActiveClass = ({ isActive }: { isActive: boolean }) =>
-  classNames('navbar-item', {
-    'has-background-grey-lighter': isActive,
+  classNames("navbar-item", {
+    "has-background-grey-lighter": isActive,
   });
 
 export const App = () => {
-  const { authorized, logout } = useContext(AuthContext);
+  const authorized = useAppSelector((state) => state.auth.authorized);
+  const dispatch = useAppDispatch();
 
   return (
     <div data-cy="app">
@@ -22,11 +23,10 @@ export const App = () => {
         <div className="container">
           <div className="navbar-brand">
             <NavLink className={getLinkActiveClass} to="/">Home</NavLink>
-            
             <NavLink className={getLinkActiveClass} to="/rooms">Rooms</NavLink>
 
             {authorized ? (
-              <button className="button is-danger ml-2" onClick={logout}>
+              <button className="button is-danger ml-2" onClick={() => dispatch(logout())}>
                 Logout
               </button>
             ) : (

@@ -1,24 +1,29 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../store/AuthContext';
+import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { login } from "../../features/authSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 export const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const { login } = useContext(AuthContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const path = state?.pathname || '/';
+  const path = state?.pathname || "/";
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setErrorMessage('');
+    setErrorMessage("");
 
-    login(username, password)
-      .then(() => navigate(path, { replace: true }))
-      .catch(error => setErrorMessage(error.message));
+    if (username !== "Artem" || password !== "2004") {
+      setErrorMessage("Username or password is wrong.");
+      return;
+    }
+
+    dispatch(login());
+    navigate(path, { replace: true });
   }
 
   return (
@@ -32,14 +37,14 @@ export const LoginPage = () => {
               <div className="field">
                 <label className="label">Username</label>
                 <div className="control has-icons-left">
-                  <input 
-                    className="input is-medium" 
-                    type="text" 
+                  <input
+                    className="input is-medium"
+                    type="text"
                     placeholder="Enter your username"
                     value={username}
-                    onChange={event => {
+                    onChange={(event) => {
                       setUsername(event.target.value);
-                      setErrorMessage('');
+                      setErrorMessage("");
                     }}
                   />
                   <span className="icon is-small is-left">
@@ -51,14 +56,14 @@ export const LoginPage = () => {
               <div className="field">
                 <label className="label">Password</label>
                 <div className="control has-icons-left">
-                  <input 
-                    className="input is-medium" 
-                    type="password" 
+                  <input
+                    className="input is-medium"
+                    type="password"
                     placeholder="Enter your password"
                     value={password}
-                    onChange={event => {
+                    onChange={(event) => {
                       setPassword(event.target.value);
-                      setErrorMessage('');
+                      setErrorMessage("");
                     }}
                   />
                   <span className="icon is-small is-left">
@@ -69,7 +74,7 @@ export const LoginPage = () => {
 
               {errorMessage && (
                 <div className="notification is-danger is-light animate__animated animate__fadeIn">
-                  <button className="delete" onClick={() => setErrorMessage('')}></button>
+                  <button className="delete" onClick={() => setErrorMessage("")}></button>
                   {errorMessage}
                 </div>
               )}
