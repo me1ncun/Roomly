@@ -1,21 +1,5 @@
-// import { Person } from './types/Room';
-
-// // eslint-disable-next-line operator-linebreak
-// const API_URL =
-//   '...';
-
-// function wait(delay: number) {
-//   return new Promise(resolve => setTimeout(resolve, delay));
-// }
-
-// export function getPeople(): Promise<Person[]> {
-//   return wait(500)
-//     .then(() => fetch(API_URL))
-//     .then(response => response.json());
-// }
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:7002';
+const BASE_URL = 'http://localhost:7000/gateway';
 
 // a promise resolved after a given delay
 function wait(delay: number) {

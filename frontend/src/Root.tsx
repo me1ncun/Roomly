@@ -10,20 +10,26 @@ import { RoomsPage } from "./components/RoomsPage";
 import { NotFoundPage } from "./components/NotFoundPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { LoginPage } from "./components/LoginPage";
+import { RequireAuth } from "./components/RequireAuth";
+import { AuthProvider } from "./auth/AuthProvider";
 
 export const Root = () => (
   <Provider store={store}>
-    <Router>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route index element={<HomePage />} />
-          <Route path="rooms">
-            <Route path=":currentRoom?" element={<RoomsPage />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="rooms" element={<RequireAuth />}>
+              <Route index element={<RoomsPage />} />
+            </Route>
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="home" element={<Navigate to="/" replace />} />
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="home" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </AuthProvider>
   </Provider>
 );
