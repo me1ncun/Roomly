@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { logoutUser } from "./features/authSlice";
+import { useEffect } from "react";
 
 const getLinkActiveClass = ({ isActive }: { isActive: boolean }) =>
   classNames("navbar-item", {
@@ -15,6 +16,16 @@ export const App = () => {
   const handleLogout = () => {
     dispatch(logoutUser());
   };
+
+useEffect(() => {
+  const storedToken = localStorage.getItem("token");
+
+  if (storedToken && !token) {
+    console.log("Синхронизируем token с Redux из localStorage", `${storedToken}`);
+    dispatch({ type: "auth/setToken", payload: storedToken });
+  }
+}, [token, dispatch]);
+
 
   return (
     <div data-cy="app">
@@ -36,7 +47,6 @@ export const App = () => {
             ) : (
               <>
                 <NavLink className={getLinkActiveClass} to="/login">Login</NavLink>
-                <NavLink className={getLinkActiveClass} to="/register">Register</NavLink>
               </>
             )}
           </div>
