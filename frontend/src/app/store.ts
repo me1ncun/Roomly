@@ -5,9 +5,9 @@ import authReducer from "../features/authSlice";
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     rooms: roomsReducer,
     roomSlots: roomSlotsReducer,
-    auth: authReducer,
   },
 });
 

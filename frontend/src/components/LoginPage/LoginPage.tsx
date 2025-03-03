@@ -1,95 +1,63 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState } from "react";
-import { login } from "../../features/authSlice";
-import { useAppDispatch } from "../../app/hooks";
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { loginUser } from "../../features/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const path = state?.pathname || "/";
+  const { loading, error, token } = useAppSelector((state) => state.auth);
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setErrorMessage("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    if (username !== "Artem" || password !== "2004") {
-      setErrorMessage("Username or password is wrong.");
-      return;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(loginUser({ email, password }));
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
     }
-
-    dispatch(login());
-    navigate(path, { replace: true });
-  }
+  }, [token, navigate]);
 
   return (
-    <section className="section">
-      <div className="container">
-        <div className="column is-half is-offset-one-quarter">
-          <div className="box has-shadow">
-            <h1 className="title has-text-centered has-text-primary">Sign In</h1>
-
-            <form onSubmit={handleSubmit}>
-              <div className="field">
-                <label className="label">Username</label>
-                <div className="control has-icons-left">
-                  <input
-                    className="input is-medium"
-                    type="text"
-                    placeholder="Enter your username"
-                    value={username}
-                    onChange={(event) => {
-                      setUsername(event.target.value);
-                      setErrorMessage("");
-                    }}
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-user"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div className="field">
-                <label className="label">Password</label>
-                <div className="control has-icons-left">
-                  <input
-                    className="input is-medium"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(event) => {
-                      setPassword(event.target.value);
-                      setErrorMessage("");
-                    }}
-                  />
-                  <span className="icon is-small is-left">
-                    <i className="fas fa-lock"></i>
-                  </span>
-                </div>
-              </div>
-
-              {errorMessage && (
-                <div className="notification is-danger is-light animate__animated animate__fadeIn">
-                  <button className="delete" onClick={() => setErrorMessage("")}></button>
-                  {errorMessage}
-                </div>
-              )}
-
-              <div className="field">
-                <div className="control">
-                  <button type="submit" className="button is-primary is-fullwidth is-medium">
-                    Sign In
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+    <div className="container">
+      <h1 className="title">Login</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="field">
+          <label className="label">Email</label>
+          <input
+            className="input"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-      </div>
-    </section>
+        <div className="field">
+          <label className="label">Password</label>
+          <input
+            className="input"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button className="button is-primary" type="submit" disabled={loading}>
+          Login
+        </button>
+        {error && <p className="has-text-danger">{error}</p>}
+      </form>
+
+      <p className="mt-4">
+        Have no acc?{" "}
+        <Link to="/register" className="has-text-link">
+          Reg
+        </Link>
+      </p>
+    </div>
   );
 };

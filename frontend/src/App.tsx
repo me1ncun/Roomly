@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { logout } from "./features/authSlice";
+import { logoutUser } from "./features/authSlice";
 
 const getLinkActiveClass = ({ isActive }: { isActive: boolean }) =>
   classNames("navbar-item", {
@@ -9,8 +9,12 @@ const getLinkActiveClass = ({ isActive }: { isActive: boolean }) =>
   });
 
 export const App = () => {
-  const authorized = useAppSelector((state) => state.auth.authorized);
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <div data-cy="app">
@@ -25,12 +29,15 @@ export const App = () => {
             <NavLink className={getLinkActiveClass} to="/">Home</NavLink>
             <NavLink className={getLinkActiveClass} to="/rooms">Rooms</NavLink>
 
-            {authorized ? (
-              <button className="button is-danger ml-2" onClick={() => dispatch(logout())}>
+            {token ? (
+              <button className="button is-danger" onClick={handleLogout}>
                 Logout
               </button>
             ) : (
-              <NavLink className={getLinkActiveClass} to="/login">Login</NavLink>
+              <>
+                <NavLink className={getLinkActiveClass} to="/login">Login</NavLink>
+                <NavLink className={getLinkActiveClass} to="/register">Register</NavLink>
+              </>
             )}
           </div>
         </div>
