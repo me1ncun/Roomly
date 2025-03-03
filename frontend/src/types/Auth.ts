@@ -3,9 +3,9 @@ export type User = {
   email: string;
 }
 
-export type AuthResponse = {
+export interface AuthResponse {
   token: string;
-  user: User;
+  user?: User;
 }
 
 export type Register = {

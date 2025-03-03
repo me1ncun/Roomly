@@ -1,41 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout } from "../api/auth";
-import { User } from "../types/Auth";
+import { Login, Register, User } from "../types/Auth";
 
-type AuthState = {
+interface AuthState {
   token: string | null;
   user: User | null;
   loading: boolean;
   error: string | null;
-};
+}
+
+const storedToken = localStorage.getItem("token") || null;
+const storedUser = localStorage.getItem("user");
 
 const initialState: AuthState = {
-  token: localStorage.getItem("token"),
-  user: null,
+  token: storedToken,
+  user: storedUser ? JSON.parse(storedUser) : null,
   loading: false,
   error: null,
 };
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+  async (credentials: Login, { rejectWithValue }) => {
     try {
       const response = await login(credentials);
-      localStorage.setItem("token", response.token);
-      return response;
+
+      console.log("сыроед:", response);
+
+      if (typeof response === "string") {
+        return { token: response };
+      } else if (response.token) {
+        return response;
+      } else {
+        return rejectWithValue("неправильный формат от сервера");
+      }
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
-  async (userData: { name: string; email: string; password: string }, { rejectWithValue }) => {
+  async (userData: Register, { rejectWithValue }) => {
     try {
       const response = await register(userData);
-      localStorage.setItem("token", response.token);
+      // localStorage.setItem("token", response.token);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -43,9 +55,13 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-  await logout();
-  localStorage.removeItem("token");
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { rejectWithValue }) => {
+  try {
+    await logout();
+    return null;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
 });
 
 const authSlice = createSlice({
@@ -61,8 +77,14 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
-        state.user = action.payload.user;
-      })
+    
+        if (action.payload.user) {
+          state.user = action.payload.user;
+          localStorage.setItem("user", JSON.stringify(action.payload.user));
+        }
+        // console.log("response", state.token);
+        localStorage.setItem("token", action.payload.token);
+      }) 
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -74,15 +96,25 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
-        state.user = action.payload.user;
+        if (action.payload.user) {
+          state.user = action.payload.user;
+        }
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
       .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
         state.token = null;
         state.user = null;
+        
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+    })          
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
