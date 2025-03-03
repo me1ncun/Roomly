@@ -101,6 +101,12 @@ public class AuthController : ControllerBase
                 Email = registrationViewModel.Email,
                 UserName = registrationViewModel.Name
             };
+
+            var userExists = await _userManager.FindByEmailAsync(identity.Email);
+            if (userExists is not null)
+            {
+                return BadRequest("User already exists");
+            }
             
             var result = await _userManager.CreateAsync(identity, registrationViewModel.Password);
             if (!result.Succeeded)
