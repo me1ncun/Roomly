@@ -70,7 +70,8 @@ public class RoomService : IRoomService
     {
         var rooms = await _dbContext.AvailableSlots
             .Include(r => r.Room)
-            .Where(slot => slot.RoomId == roomId && slot.IsAvailable == true) 
+            .Where(slot => slot.RoomId == roomId && slot.IsAvailable == true)
+            .OrderBy(slot => slot.StartTime)
             .Select(slot => new AvailableRoomViewModel
             {
                 RoomId = slot.Room.Id,

@@ -27,6 +27,14 @@ function request<T>(
     };
   }
 
+  const token = localStorage.getItem('token');
+  if (token) {
+    options.headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${token}`,
+    };
+  }
+
   // return wait(300)
   // .then(() => fetch(BASE_URL + url, options))
   // .then(response => response.json());
