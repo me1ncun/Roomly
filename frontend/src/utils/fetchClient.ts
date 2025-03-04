@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:7001/api/users';
+const BASE_URL = 'http://localhost:7002/api';
 
 // a promise resolved after a given delay
 function wait(delay: number) {

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { clearError, loginUser } from "../../features/authSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export const LoginPage = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const dispatch = useAppDispatch();
   const { loading, error, token } = useAppSelector((state) => state.auth);
 
   const [email, setEmail] = useState("");
@@ -20,11 +21,13 @@ export const LoginPage = () => {
     dispatch(loginUser({ email, password }));
   };
 
+  const redirectPath = useMemo(() => state?.pathname || "/rooms", [state?.pathname]);
+
   useEffect(() => {
     if (token) {
-      navigate("/rooms");
+      navigate(redirectPath, { replace: true });
     }
-  }, [token, navigate]);
+  }, [token, navigate, redirectPath]);
 
   return (
     <div className="container is-flex is-justify-content-center is-align-items-center" style={{ height: "100vh" }}>
