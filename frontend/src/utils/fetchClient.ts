@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:7001/api/users';
+const BASE_URL = 'http://localhost:7000/gateway';
 
 // a promise resolved after a given delay
 function wait(delay: number) {
@@ -27,16 +27,30 @@ function request<T>(
     };
   }
 
+  // return wait(300)
+  // .then(() => fetch(BASE_URL + url, options))
+  // .then(response => response.json());
+
   // for a demo purpose we emulate a delay to see if Loaders work
   return wait(300)
     .then(() => fetch(BASE_URL + url, options))
-    .then(async response => {
+    .then(async (response) => {
       const text = await response.text();
       console.log("Server Response:", text);
 
       try {
-        return JSON.parse(text);
+        const parsed = JSON.parse(text);
+        
+        if (!response.ok) {
+          console.error("Request error:", parsed);
+          throw new Error(JSON.stringify(parsed));
+        }
+
+        return parsed;
       } catch (error: any) {
+        if (!response.ok) {
+          throw new Error(text || "Serv error");
+        }
         return text as unknown as T;
       }
     });

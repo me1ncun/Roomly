@@ -12,6 +12,7 @@ import { LoginPage } from "./components/LoginPage/LoginPage";
 import { RegisterPage } from "./components/RegisterPage/RegisterPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 
 export const Root = () => (
   <Provider store={store}>
@@ -19,7 +20,9 @@ export const Root = () => (
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path="rooms" element={<RoomsPage />} />
+          <Route element={<RequireAuth />}>
+            <Route path="rooms" element={<RoomsPage />} />
+          </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>
