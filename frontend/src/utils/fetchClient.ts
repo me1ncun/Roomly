@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:7002/api';
+const BASE_URL = 'http://localhost:7000/gateway';
 
 // a promise resolved after a given delay
 function wait(delay: number) {
@@ -26,7 +26,6 @@ function request<T>(
       'Content-Type': 'application/json; charset=UTF-8',
     };
   }
-
 
   // return wait(300)
   // .then(() => fetch(BASE_URL + url, options))
