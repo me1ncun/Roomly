@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout } from "../api/auth";
@@ -24,19 +25,20 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials: Login, { rejectWithValue }) => {
     try {
-      const response = await login(credentials);
+      const response: any = await login(credentials);
 
-      console.log("сыроед:", response);
+      console.log("Сырой ответ:", response);
 
-      if (typeof response === "string") {
+      if (typeof response === "string" && response.includes(".") && response.split(".").length === 3) {
         return { token: response };
-      } else if (response.token) {
+      } else if (typeof response === "object" && response.token && typeof response.token === "string" &&
+                 response.token.includes(".") && response.token.split(".").length === 3) {
         return response;
       } else {
-        return rejectWithValue("неправильный формат от сервера");
+        return rejectWithValue(response || "Authentication error");
       }
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue("Error network or server");
     }
   }
 );
@@ -47,10 +49,21 @@ export const registerUser = createAsyncThunk(
   async (userData: Register, { rejectWithValue }) => {
     try {
       const response = await register(userData);
-      // localStorage.setItem("token", response.token);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      console.error("Error in registerUser:", error.message);
+
+      try {
+        const parsedError = JSON.parse(error.message);
+        if (Array.isArray(parsedError)) {
+          const errorMessages = parsedError.map(err => err.description).join("\n");
+          return rejectWithValue(errorMessages);
+        }
+      } catch {
+        return rejectWithValue("Register error");
+      }
+
+      return rejectWithValue("Register error");
     }
   }
 );
@@ -67,7 +80,11 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, { reject
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -95,9 +112,12 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token;
-        if (action.payload.user) {
-          state.user = action.payload.user;
+        
+        if (action.payload.token) {
+          state.token = action.payload.token;
+          if (action.payload.user) {
+            state.user = action.payload.user;
+          }
         }
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -119,4 +139,6 @@ const authSlice = createSlice({
   },
 });
 
+
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { loginUser } from "../../features/authSlice";
+import { clearError, loginUser } from "../../features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
@@ -10,6 +10,10 @@ export const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

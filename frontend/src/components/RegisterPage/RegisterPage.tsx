@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { registerUser } from "../../features/authSlice";
+import { clearError, registerUser } from "../../features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 export const RegisterPage = () => {
@@ -12,6 +12,10 @@ export const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const resultAction = await dispatch(registerUser({ name, email, password }));
@@ -20,7 +24,6 @@ export const RegisterPage = () => {
       navigate("/login");
     }
   };
-  
 
   return (
     <div className="container is-flex is-justify-content-center is-align-items-center" style={{ height: "100vh" }}>
