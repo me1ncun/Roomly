@@ -13,6 +13,7 @@ import { RegisterPage } from "./components/RegisterPage/RegisterPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
+import { AccountPage } from "./components/AccountPage/AccountPage";
 
 export const Root = () => (
   <Provider store={store}>
@@ -25,6 +26,7 @@ export const Root = () => (
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="account" element={<AccountPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="home" element={<Navigate to="/" replace />} />
