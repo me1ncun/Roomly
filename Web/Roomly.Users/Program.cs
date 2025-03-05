@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql("Host=postgres;Port=5432;Database=roomly;Username=postgres;Password=postgres;", b => b.MigrationsAssembly("Roomly.Shared")); ;
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"), b => b.MigrationsAssembly("Roomly.Shared")); ;
 });
 
 builder.Services.AddCors(options =>

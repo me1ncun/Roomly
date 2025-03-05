@@ -35,6 +35,10 @@ public class BookingController : ControllerBase
         {
             return Conflict(ex.Message);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(ex.Message);
+        }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);

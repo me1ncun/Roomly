@@ -108,8 +108,8 @@ public class BookingService : IBookingService
     public async Task CancelBookingAsync(Guid bookingId)
     {
        var booking = await _dbContext.Bookings.FindAsync(bookingId);
-        if (booking is null)
-            throw new EntityNotFoundException();
+       if (booking is null)
+           throw new EntityNotFoundException();
 
         booking.Status = BookingStatus.Cancelled;
         
@@ -117,9 +117,8 @@ public class BookingService : IBookingService
             && s.StartTime == booking.StartTime
             && s.EndTime == booking.EndTime);
         if (availableSlot is null)
-        {
             throw new Exception("Slot is not available");
-        }
+        
         
         availableSlot.IsAvailable = true;
         
