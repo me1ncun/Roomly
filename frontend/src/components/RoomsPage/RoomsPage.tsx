@@ -5,6 +5,8 @@ import { Loader } from '../Loader';
 import { Room } from '../../types/Room';
 import { RoomSlotsModal } from '../RoomSlotsModal/RoomSlotsModal';
 
+export const getRoomType = (type: number) => (type === 0 ? 'Meeting Room' : 'Workplace');
+
 export const RoomsPage = () => {
   const dispatch = useAppDispatch();
   const { rooms, loaded, hasError, sortBy, sortOrder } = useAppSelector(state => state.rooms);
@@ -24,8 +26,6 @@ export const RoomsPage = () => {
   const getColumnTitle = (key: string) => {
     return `${key.charAt(0).toUpperCase() + key.slice(1)} ${sortBy === key ? (sortOrder === 'asc' ? '' : '') : ''}`;
   };
-
-  const getRoomType = (type: number) => (type === 0 ? 'Meeting Room' : 'Workplace');
 
   const handleViewSlots = (roomId: string, roomName: string) => {
     setSelectedRoomId(roomId);

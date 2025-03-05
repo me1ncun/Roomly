@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import roomsReducer from "../features/roomsSlice";
 import roomSlotsReducer from "../features/roomSlotsSlice";
 import authReducer from "../features/authSlice";
+import bookingReducer from "../features/bookingSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     rooms: roomsReducer,
     roomSlots: roomSlotsReducer,
+    booking: bookingReducer,
   },
 });
 

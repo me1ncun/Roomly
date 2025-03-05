@@ -9,6 +9,6 @@ export const getBookings = () => {
   return client.get<BookingRoom[]>(`/bookings`);
 };
 
-export const deleteBooking = (bookingId: string) => {
-  return client.delete(`/bookings/${bookingId}/cancel`);
+export const updateBookingStatus = (bookingId: string) => {
+  return client.put(`/bookings/${bookingId}/cancel`);
 };

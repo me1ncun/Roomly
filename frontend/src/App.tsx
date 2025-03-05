@@ -17,15 +17,14 @@ export const App = () => {
     dispatch(logoutUser());
   };
 
-useEffect(() => {
-  const storedToken = localStorage.getItem("token");
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
 
-  if (storedToken && !token) {
-    console.log("Синхронизируем token с Redux из localStorage", `${storedToken}`);
-    dispatch({ type: "auth/setToken", payload: storedToken });
-  }
-}, [token, dispatch]);
-
+    if (storedToken && !token) {
+      console.log("Synchronizing token with Redux from localStorage", `${storedToken}`);
+      dispatch({ type: "auth/setToken", payload: storedToken });
+    }
+  }, [token, dispatch]);
 
   return (
     <div data-cy="app">
@@ -36,24 +35,29 @@ useEffect(() => {
         aria-label="main navigation"
       >
         <div className="container">
-          <div className="navbar-brand">
-            <NavLink className={getLinkActiveClass} to="/">Home</NavLink>
-            <NavLink className={getLinkActiveClass} to="/rooms">Rooms</NavLink>
-
-            {token ? (
-              <button className="button is-danger" onClick={handleLogout}>
-                Logout
-              </button>
-            ) : (
-              <>
+          <div className="navbar-menu is-active">
+            <div className="navbar-start">
+              <NavLink className={getLinkActiveClass} to="/">Home</NavLink>
+              <NavLink className={getLinkActiveClass} to="/rooms">Rooms</NavLink>
+            </div>
+  
+            <div className="navbar-end">
+              {token ? (
+                <>
+                  <NavLink className={getLinkActiveClass} to="/account">Account</NavLink>
+                  <button className="button is-danger" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </>
+              ) : (
                 <NavLink className={getLinkActiveClass} to="/login">Login</NavLink>
-              </>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </nav>
-
+  
       <Outlet />
     </div>
-  );
+  );  
 };
