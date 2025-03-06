@@ -21,7 +21,6 @@ export const App = () => {
     const storedToken = localStorage.getItem("token");
 
     if (storedToken && !token) {
-      console.log("Synchronizing token with Redux from localStorage", `${storedToken}`);
       dispatch({ type: "auth/setToken", payload: storedToken });
     }
   }, [token, dispatch]);

@@ -19,7 +19,7 @@ export const RegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const resultAction = await dispatch(registerUser({ name, email, password }));
-    // console.log({ name, email, password });
+
     if (registerUser.fulfilled.match(resultAction)) {
       navigate("/login");
     }

@@ -2,25 +2,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const BASE_URL = 'http://localhost:7000/gateway';
 
-// a promise resolved after a given delay
 function wait(delay: number) {
   return new Promise(resolve => {
     setTimeout(resolve, delay);
   });
 }
 
-// To have autocompletion and avoid mistypes
 type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
 
 function request<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: any = null, // we can send any data to the server
+  data: any = null,
 ): Promise<T> {
   const options: RequestInit = { method };
 
   if (data) {
-    // We add body and Content-Type only for the requests with data
     options.body = JSON.stringify(data);
     options.headers = {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -35,16 +32,10 @@ function request<T>(
     };
   }
 
-  // return wait(300)
-  // .then(() => fetch(BASE_URL + url, options))
-  // .then(response => response.json());
-
-  // for a demo purpose we emulate a delay to see if Loaders work
   return wait(300)
     .then(() => fetch(BASE_URL + url, options))
     .then(async (response) => {
       const text = await response.text();
-      console.log("Server Response:", text);
 
       try {
         const parsed = JSON.parse(text);

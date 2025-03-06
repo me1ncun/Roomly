@@ -3,7 +3,7 @@ export type User = {
   email: string;
 }
 
-export interface AuthResponse {
+export type AuthResponse = {
   token: string;
   user?: User;
 }

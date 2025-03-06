@@ -23,10 +23,10 @@ export const Root = () => (
           <Route index element={<HomePage />} />
           <Route element={<RequireAuth />}>
             <Route path="rooms" element={<RoomsPage />} />
+            <Route path="account" element={<AccountPage />} />
           </Route>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="account" element={<AccountPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="home" element={<Navigate to="/" replace />} />
