@@ -27,8 +27,6 @@ export const loginUser = createAsyncThunk(
     try {
       const response: any = await login(credentials);
 
-      console.log("Сырой ответ:", response);
-
       if (typeof response === "string" && response.includes(".") && response.split(".").length === 3) {
         return { token: response };
       } else if (typeof response === "object" && response.token && typeof response.token === "string" &&
@@ -99,7 +97,6 @@ const authSlice = createSlice({
           state.user = action.payload.user;
           localStorage.setItem("user", JSON.stringify(action.payload.user));
         }
-        // console.log("response", state.token);
         localStorage.setItem("token", action.payload.token);
       }) 
       .addCase(loginUser.rejected, (state, action) => {

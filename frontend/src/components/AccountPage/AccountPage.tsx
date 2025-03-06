@@ -5,6 +5,7 @@ import { initBookings, cancelBooking } from "../../features/bookingSlice";
 import { initRooms } from "../../features/roomsSlice";
 import { Room } from "../../types/Room";
 import { getRoomType } from "../RoomsPage";
+import cn from "classnames";
 
 export const AccountPage = () => {
   const dispatch = useAppDispatch();
@@ -77,7 +78,7 @@ export const AccountPage = () => {
                     ).toLocaleTimeString()} - ${new Date(
                       booking.endTime
                     ).toLocaleTimeString()}`;
-                    const statusText = getStatusText(booking.status);
+                    const statusText = getStatusText(booking.status!);
                     return (
                       <tr key={`${booking.roomId}-${booking.startTime}`}>
                         <td>{room.name}</td>
@@ -98,13 +99,12 @@ export const AccountPage = () => {
                         </td>
                         <td>
                           <button
-                            className={`button ${
-                              statusText === "Cancelled"
-                                ? "is-light"
-                                : "is-danger"
-                            } is-small`}
+                            className={cn("button is-small", {
+                              "is-light": statusText === "Cancelled",
+                              "is-danger": statusText !== "Cancelled",
+                            })}
                             onClick={() =>
-                              handleCancelBooking(booking.bookingId)
+                              handleCancelBooking(booking.bookingId!)
                             }
                             disabled={statusText === "Cancelled"}
                           >

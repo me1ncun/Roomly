@@ -3,7 +3,7 @@
 //   return new Promise(done => setTimeout(done, delay));
 // }
 
-function read(key: string) {
+export function read(key: string) {
   const data = window.localStorage.getItem(key);
 
   try {
@@ -14,7 +14,7 @@ function read(key: string) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function write(key: string, data: any) {
+export function write(key: string, data: any) {
   window.localStorage.setItem(key, JSON.stringify(data));
 }
 

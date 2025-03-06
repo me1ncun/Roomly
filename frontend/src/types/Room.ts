@@ -1,6 +1,6 @@
 import { RoomType } from "./RoomType";
 
-export interface Room {
+export type Room = {
   id: string;
   name: string;
   location: string;

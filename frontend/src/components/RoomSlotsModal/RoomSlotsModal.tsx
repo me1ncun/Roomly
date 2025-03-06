@@ -5,6 +5,7 @@ import { RoomSlot } from "../../types/RoomSlot";
 import { BookingRoom } from "../../types/BookingRoom";
 import { Loader } from "../Loader";
 import { addBooking } from "../../features/bookingSlice";
+import cn from "classnames";
 
 type Props = {
   roomId: string | null;
@@ -80,7 +81,10 @@ export const RoomSlotsModal: React.FC<Props> = ({
                     </span>
                     <div className="is-flex is-align-items-center">
                       <span
-                        className={`tag is-medium has-text-centered ${isBooked ? "is-danger" : "is-success is-light"}`}
+                        className={cn("tag is-medium has-text-centered", {
+                          "is-danger": isBooked,
+                          "is-success is-light": !isBooked,
+                        })}
                         style={{ marginRight: "0.5rem" }}
                       >
                         {isBooked ? "Disabled" : "Available"}
