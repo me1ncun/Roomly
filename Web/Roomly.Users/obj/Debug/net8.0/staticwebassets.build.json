@@ -1,0 +1,24 @@
+{
+  "Version": 1,
+  "Hash": "mFAD0Qli6lvQDoBp1A1GFGB//uK0mBCliwdBGdM8y98=",
+  "Source": "Roomly.Users",
+  "BasePath": "_content/Roomly.Users",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\denis\\OneDrive\\Рабочий стол\\Roomly\\Web\\Roomly.Rooms\\Roomly.Rooms.csproj",
+      "Version": 2,
+      "Source": "Roomly.Rooms",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
